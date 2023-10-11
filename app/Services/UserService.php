@@ -1,27 +1,21 @@
 <?php // app/Services/UserService.php
 
 namespace App\Services;
+use App\DTO\UserRegistrationDTORequest;
 use App\Models\User;
 
 class UserService
 {
-    public function registerUser($userData)
+    public function registerUser(UserRegistrationDTORequest $data)
     {
-        // Logic to register a user
-        // Assuming $userData contains user information like name, email, password
-
-        $user = User::create($userData);
-
-        return $user;
-    }
-
-    public function getUserDetails($userId)
-    {
-        // Logic to get user details
-        // Assuming $userId is the ID of the user to retrieve
-
-        $user = User::find($userId);
-
-        return $user;
+        $user = User::create([
+            'username' => $data->username,
+            'email' => $data->email,
+            'password' => bcrypt($data->password),
+            'fullName' => $data->fullName,
+            'profileImageUrl' => $data->profileImageUrl,
+            'bio' => $data->bio,
+            'website' => $data->website
+        ]);
     }
 }
